@@ -39,11 +39,12 @@ def train_dqn(agent, target_agent, memory, optimizer, beta):
 
     batch, weights, indices = memory.sample(BATCH_SIZE, beta)
     
+    
     # Vérification de la taille des transitions dans `batch`
-    try:
+    try:        
         states, actions, rewards, next_states, dones = zip(*batch)
     except ValueError as e:
-        print("Erreur de déballage des transitions dans le batch:", e)
+        #print("Erreur de déballage des transitions dans le batch:", e)
         return
     
     states = torch.tensor(np.array(states), dtype=torch.float32)
@@ -65,7 +66,7 @@ def train_dqn(agent, target_agent, memory, optimizer, beta):
     memory.update_priorities(indices, errors)
     
 # Configuration de l'environnement et de l'agent
-env = gym.make("ALE/Pong-v5", render_mode="human")
+env = gym.make("ALE/Pong-v5", render_mode="rgb_array")
 input_dim = 4
 output_dim = env.action_space.n
 
